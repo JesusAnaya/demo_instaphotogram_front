@@ -1,0 +1,70 @@
+
+body {
+    background-color: #fafafa;
+    padding-top: 54px;
+
+    @media (min-width: 992px) {
+        padding-top: 56px;
+    }
+}
+
+nav.navbar {
+    background-color: white;
+    border-bottom: 1px solid rgba(0,0,0,.0975);
+    a {
+        color: black;
+    }
+}
+
+a.navbar-brand {
+    display: inline-block;
+    font-family: 'Billabong';
+    font-size: 1.5rem;
+    line-height: inherit;
+    margin-right: 1rem;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    white-space: nowrap;
+}
+
+div.user-header {
+    margin: 24px 0 10px 0;
+
+    >img.photo {
+        height: 40px;
+        width: 40px;
+        border: 2px solid #fefefe;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px #D3D3D3;
+    }
+    >span.name {
+        margin-left: 10px;
+    }
+}
+
+div.card-post {
+    >img.card-img-top {
+
+    }
+    >div.card-body{
+        padding: 15px;
+
+        >h2.card-title {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+        >p.card-text {
+            font-size: 14px;
+        }
+    }
+    >div.card-footer.text-muted {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1200px) and (min-width: 992px) {
+    div.container {
+        max-width: 935px;
+    }
+}
+
