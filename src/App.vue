@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <HomePage/>
+    <BodyContent/>
   </div>
 </template>
 
 <script>
-import HomePage from './components/HomePage.vue'
+import BodyContent from './components/BodyContent.vue'
 
 export default {
   name: 'app',
   components: {
-    HomePage
+    BodyContent
   }
 }
 </script>
