@@ -1,16 +1,12 @@
 <template>
   <div id="app">
-    <BodyContent/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import BodyContent from './components/BodyContent.vue'
 
 export default {
-  name: 'app',
-  components: {
-    BodyContent
-  }
+  name: 'app'
 }
 </script>
