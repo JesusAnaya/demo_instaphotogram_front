@@ -5,7 +5,7 @@
     <!-- Modal Component -->
     <b-modal id="createAcountModal" ref="modal" title="Create new account" @ok="handleOk" @shown="clearData">
       <form @submit.stop.prevent="handleSubmit">
-        <b-form-input type="email" placeholder="Enter your email" v-model="email"></b-form-input>
+        <b-form-input type="text" placeholder="Enter username" v-model="username"></b-form-input>
         <b-form-input type="password" placeholder="Password" v-model="password"></b-form-input>
         <small id="passwordHelpBlock" class="form-text text-muted">
           Your password must be 6-20 characters long.
@@ -16,28 +16,31 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+const requests = axios.create({
+  baseURL: 'http://localhost:8000/api',
+});
 
 export default {
+
   name: 'CreateUserComponent',
   data () {
     return {
-      email: '',
+      username: '',
       password: ''
     }
   },
   methods: {
     clearData () {
-      this.email = ''
+      this.username = ''
       this.password = ''
     },
     handleOk (evt) {
       evt.preventDefault()
 
-      if (!this.email || !this.password) {
-        alert('Please enter your email and password')
-
-      } else if (!this.validateEmail(this.email)) {
-        alert('bad email format')
+      if (!this.username || !this.password) {
+        alert('Please enter your username and password')
 
       } else if (this.password.length < 6) {
         alert('Password is too short')
@@ -46,13 +49,24 @@ export default {
         this.handleSubmit()
       }
     },
-    handleSubmit () {
-      this.clearData()
-      this.$refs.modal.hide()
-    },
-    validateEmail: function (email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(String(email).toLowerCase());
+    async handleSubmit () {
+      const body = {username: this.username, password: this.password}
+
+      try {
+        const user = await requests.post('/auth/create-user/', body)
+        this.$store.commit('loginUser', {user: user.data})
+
+        const session = await requests.post('/auth/api-token/', body)
+        localStorage.setItem('token', session.data.token)
+
+        this.clearData()
+        this.$refs.modal.hide()
+
+        this.$router.push('/')
+
+      } catch(error) {
+        throw error
+      }
     }
   }
 }

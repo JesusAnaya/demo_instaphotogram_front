@@ -5,22 +5,26 @@
       <div class="container">
         <a class="navbar-brand" href="#">Insta-PHOTO-gram</a>
 
-        <button class="btn nav-link" @click="logoutUser">Logout</button>
+        <button v-if="isUserLoggedIn" class="btn nav-link" @click="logout">Logout</button>
       </div>
     </nav>
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
   import '../assets/less/navbar.less'
 
   export default {
     name: 'NavbarComponent',
-    props: ['user'],
     methods: {
-      ...mapMutations([
-        'logoutUser'
-      ])
+      logout() {
+        localStorage.clear()
+        this.$router.push('/login')
+      }
+    },
+    computed: {
+      isUserLoggedIn() {
+        return localStorage.getItem('token') != null
+      }
     }
   }
 </script>
