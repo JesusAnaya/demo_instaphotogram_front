@@ -17,9 +17,10 @@
 
 <script>
 import axios from 'axios'
+import consts from '../consts'
 
 const requests = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'http://' + consts.domain + '/api',
 });
 
 export default {
@@ -57,6 +58,8 @@ export default {
         this.$store.commit('loginUser', {user: user.data})
 
         const session = await requests.post('/auth/api-token/', body)
+
+        this.$store.commit('setToken', {token: session.data.token})
         localStorage.setItem('token', session.data.token)
 
         this.clearData()

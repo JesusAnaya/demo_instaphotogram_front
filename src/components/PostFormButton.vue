@@ -32,16 +32,9 @@
 <script>
 import axios from 'axios'
 
-const token = localStorage.getItem('token')
-
-const token_requests = axios.create({
-  baseURL: 'http://localhost:8000/api',
-  headers: {'Authorization': 'Token ' + token}
-});
-
 export default {
   name: 'PostFormButtonComponent',
-  props: ['message', 'post', 'tiny', 'getPostsList'],
+  props: ['message', 'post', 'tiny', 'getPostsList', 'token_requests'],
   data () {
     return {
       edited_post: {
@@ -81,10 +74,10 @@ export default {
 
       try {
         if (!this.post) {
-          postResponse = await token_requests.post('posts/', this.edited_post)
+          postResponse = await this.token_requests.post('posts/', this.edited_post)
           post = postResponse.data
         } else {
-          postResponse = await token_requests.put('posts/' + this.post.id + '/', this.edited_post)
+          postResponse = await this.token_requests.put('posts/' + this.post.id + '/', this.edited_post)
           post = postResponse.data
         }
 
@@ -111,7 +104,7 @@ export default {
       formData.append('photo', this.edited_post.photo);
 
       try {
-        var response = await token_requests.post('posts/' + post.id + '/upload_photo/', formData, extra)
+        var response = await this.token_requests.post('posts/' + post.id + '/upload_photo/', formData, extra)
         post.thumbnail = response.data.thumbnail
       } catch(error) {
         //

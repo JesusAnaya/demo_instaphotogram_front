@@ -19,13 +19,14 @@
 
 <script>
     import axios from 'axios'
+    import consts from '../consts'
     import NavbarComponent from './Navbar.vue'
     import FooterComponent from './Footer.vue'
     import CreateUserComponent from './CreateUser.vue'
     import '../assets/less/login.less'
 
     const requests = axios.create({
-        baseURL: 'http://localhost:8000/api',
+        baseURL: 'http://' + consts.domain + '/api',
     });
 
     export default {
@@ -47,8 +48,11 @@
 
                 try {
                     const session = await requests.post('/auth/api-token/', body)
+
+                    this.$store.commit('setToken', {token: session.data.token})
                     localStorage.setItem('token', session.data.token)
-                    setTimeout( () => this.$router.push({ path: '/'}), 2000);
+
+                    this.$router.push({ path: '/'})
 
                 } catch(error) {
                     throw error
